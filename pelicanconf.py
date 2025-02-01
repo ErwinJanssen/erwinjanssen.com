@@ -38,3 +38,8 @@ DEFAULT_PAGINATION = 10
 PLUGINS = [
     "pelican.plugins.pandoc_reader",
 ]
+
+PANDOC_ARGS = [
+    # Put mathematics in dedicated span/divs, to be rendered by KaTeX.
+    "--katex",
+]
