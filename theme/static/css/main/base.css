@@ -1,0 +1,133 @@
+body {
+  /* Remove to margin on the body to allow for full width background colors. */
+  margin: 0;
+
+  /*
+   * Make the body element at least the same height as the viewport. This is to
+   * allow any content to extend to all parts of the screen, regardless of the
+   * size of the other elements.
+   */
+  min-height: 100vh;
+
+  /*
+   * Use a flexbox layout for the base elements. This, for example, allows to
+   * grow a desired element (such as main) to fill up the viewport if the other
+   * content remains small.
+   */
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+ * The base layout consists of a header, a main, and a footer. Visually, the
+ * header is the top most elements, followed by the main and lastly the footer.
+ * This is reflected in the z-index.
+ */
+body > header,
+body > main,
+body > footer {
+  position: relative;
+}
+
+body > header { z-index: 3; }
+body > main { z-index: 2; }
+body > footer { z-index: 1; }
+
+/*
+ * Let the main element grow if any space remains. This makes for a more
+ * balanced page, otherwise the footer will be higher.
+ */
+body > main {
+  flex-grow: 1;
+}
+
+/*
+ * The three primary sections will have the same max width, and will be
+ * centered. A slight padding will make sure the content isn't pressed to the
+ * edge of the viewport on smaller screens.
+ */
+body > header > .container,
+body > main > .container,
+body > footer > .container {
+  max-width: 50rem;
+  margin: auto;
+  padding: 0 0.5rem;
+}
+
+/*
+ * The header and main will receive a full width background, this will create
+ * the illusion that the footer also has a background, while it is actually the
+ * background of the root html element.
+ */
+body > header {
+  --background-color: hsl(266, 23%, calc(15% + var(--light) / 10));
+  background-color: var(--background-color);
+  color: white;
+}
+
+body > main {
+  background: var(--primary-background);
+}
+
+/*
+ * Provide some padding to the top and bottom of the three primary sections.
+ * The header receives a bit less.
+ */
+body > header {
+  padding: 0.5rem 0rem;
+}
+
+body > main,
+body > footer {
+  padding: 2rem 0rem;
+}
+
+/*
+ * Give a material design inspired box-shadow to both header and main. This
+ * creates the illusion that the header lays on the of the main content, which
+ * in turn lays on top of the footer.
+ */
+body > header,
+body > main {
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
+}
+
+/*
+ * A flexbox container is used to layout the elements in the header next to
+ * each other, space them evenly and center them vertically.
+ */
+body > header > .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/*
+ * The site title will be a URL, but without any styling. The site title has no
+ * direct relation with the content and is therefore not a heading. For now it
+ * is simply text, but larger.
+ */
+.site-title {
+  color: inherit;
+  font-size: 2rem;
+  font-weight: lighter;
+  text-decoration: none;
+}
+
+@media print {
+  /* Hide the site global header and footer when printing the page */
+  body > header,
+  body > footer {
+    display: none;
+  }
+
+  /* Remove padding around the page. */
+  body > main {
+    padding: 0 !important;
+  }
+
+  /* Hide all box shadows as these doesn't look good on paper. */
+  * {
+    box-shadow: unset !important;
+  }
+}

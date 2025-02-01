@@ -1,0 +1,218 @@
+@import "main/base.css";
+
+html {
+  /*
+   * The primary lightness of the entire page, and the brightness of the main
+   * background. Other colors will be computed based on this value using
+   * `calc`. This attribute can be overwritten modified by external sources
+   * such as Javascript, which can be used for a dark-mode toggle.
+   */
+  --light: 100%;
+
+  /*
+   * Certain elements, such as code blocks or certain borders, will be slightly
+   * brighter or darker than the main background. This attribute specifies how
+   * much the difference is.
+   */
+  --light-adjust: 5%;
+
+  /*
+   * These grey-scale colors directly depend on the value of --light and
+   * --light-adjust. The main content will get the color of
+   * --primary-background. Elements such as code blocks, and table rows will
+   * get --secondary-background as background color.
+   */
+  --primary-background: hsl(0, 0%, var(--light));
+  --secondary-background: hsl(0, 0%, calc(var(--light) - var(--light-adjust)));
+  --border-color: hsl(0, 0%, calc(var(--light) - 2 * var(--light-adjust)));
+
+  /*
+   * The primary accent color will be used for the most used elements such as
+   * links and buttons. The secondary accent color will be used for things as
+   * headings.
+   */
+  --primary-accent-color: hsl(191, 66%, calc(75% - var(--light) / 2));
+  --secondary-accent-color: hsl(74, 41%, calc(75% - var(--light) / 2));
+
+  /*
+   * This background color will be behind the main content and will only be
+   * visible at the footer. As such, it will be a darker shade then the main
+   * background.
+   */
+  background: var(--secondary-background);
+
+  /*
+   * Set the font color to be the inverse of the primary lightness. This
+   * creates a light gray when the background gets dark.
+   */
+  --font-light: calc(100% - var(--light));
+  color: hsl(0, 0%, var(--font-light));
+
+  /*
+   * Sans-serif fonts are easier to read on screen, so it will be used for most
+   * of the text.
+   */
+  font-family: sans-serif;
+}
+
+/*
+ * Increasing the line height improves readability. This is applied to all
+ * elements which can contain paragraphs of text.
+ */
+p, table, li {
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: serif;
+  font-weight: normal;
+  color: var(--secondary-accent-color);
+}
+
+/*
+ * h1 headings are always at the top of a container. Setting the margin-top to
+ * zero makes the container size more predictable.
+ */
+h1 {
+  margin-top: 0;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  text-decoration: none;
+}
+
+a {
+  color: var(--primary-accent-color);
+}
+
+#dark-mode-switch label {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+
+  background-image: url("../images/sun.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+#dark-mode-switch input[type=checkbox]:checked + label {
+  background-image: url("../images/moon.svg");
+}
+
+#dark-mode-switch input {
+  display: none;
+}
+
+/*
+ * Provide a background and border for preformatted code block, and inline code
+ * snippets. <code> tags inside a <pre> should not be given a background and
+ * border.
+ */
+pre, :not(pre) > code {
+  background: var(--secondary-background);
+  border-style: solid;
+  border-color: var(--border-color);
+  border-radius: 0.2rem;
+  font-size: 0.8rem;
+}
+
+
+/*
+ * Inline code gets a very small padding, so the background is less pressed on
+ * the text.
+ */
+:not(pre) > code {
+  padding: .05rem .4rem;
+  border-width: .05rem;
+}
+
+/*
+ * Code blocks get a larger padding, and a slightly increased font size, since
+ * the default font size for preformatted elements is smaller.
+ */
+pre {
+  padding: 1rem 2rem;
+  border-width: .1rem;
+
+  /*
+   * Setting the overflow to 'auto', makes the content scrollable inside the
+   * element, instead of dragging the background away when scrolling.
+   */
+  overflow: auto;
+
+  /* The margin is required so that the box-shadow is visible */
+  margin: 0.3rem;
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 40rem) {
+  pre {
+    padding: 0.5rem 1rem;
+  }
+}
+
+#post-list {
+  margin: 0;
+  padding: 0;
+}
+
+#post-list > li {
+  list-style-type: none;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-top: 0.1rem solid var(--primary-accent-color);
+}
+
+#post-list > li h2 {
+  margin-top: 0;
+}
+
+figure {
+  text-align: center;
+}
+
+figure > img {
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  border: 0.1rem solid var(--border-color);
+  border-radius: 0.2rem;
+  margin: auto;
+}
+
+thead {
+  background: var(--border-color);
+}
+
+th, td {
+  padding: 0.2rem 1rem;
+}
+
+tbody > tr:nth-child(odd) {
+  background: var(--secondary-background);
+}
+
+/*
+ * This class can be used for elements whose colors can be inverted when the
+ * dark theme is selected. A good example would be gray-scale images. This also
+ * applies to code block, these have a wide variety of colors, which can cause
+ * issues if not inverted.
+ */
+.invertable, pre > code {
+  filter: invert(calc(100% - var(--light)));
+}
+
+/*
+ * Prepare the page for printing on paper. This involves removing all elements
+ * and decorations that are not purely focused on the content.
+ */
+@media print {
+  /* Force the --light value to 100% to disable the dark theme. */
+  html {
+    --light: 100% !important;
+  }
+}

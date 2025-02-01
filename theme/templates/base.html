@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="{{ DEFAULT_LANG }}">
+<head>
+  {% include 'base/head.html' %}
+</head>
+
+<body>
+  {% include 'base/header.html' %}
+
+  <main>
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </main>
+
+  {% include 'base/footer.html' %}
+
+  <script>
+    const storage = window.localStorage;
+    const root = document.documentElement;
+    const darkModeCheckbox = document.getElementById("dark-mode-checkbox");
+
+    const darkModeKey = "dark-mode";
+
+    // Check if dark mode has been set previously
+    let darkMode = storage.getItem(darkModeKey);
+    if (darkMode) {
+      toggleDarkMode(darkMode == 'true');
+    }
+
+    function toggleDarkMode(checked) {
+      // Toggle the value of --light on the root element depending on 'checked'
+      let light = 100;
+      if (checked) {
+        light = 15;
+        darkModeCheckbox.checked = true;
+      }
+
+      root.style.setProperty("--light", light + "%");
+      storage.setItem(darkModeKey, checked);
+    }
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<header>
+<div class="container">
+  <a class="site-title" href="{{ SITEURL }}/">{{ SITENAME }}</a>
+  {% include 'base/nav.html' %}
+  <div id="dark-mode-switch">
+    <input type="checkbox" name="dark-mode-switch" id="dark-mode-checkbox" oninput="toggleDarkMode(this.checked)">
+    <label for="dark-mode-checkbox"></label>
+  </div>
+</div>
+</header>
